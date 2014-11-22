@@ -7,10 +7,17 @@ ApplicationWindow {
     width: 640
     height: 480
     title: qsTr("Network Monitor")
+    objectName: "asd2"
+
+    Label {
+        objectName: "asd"
+        text: "Network interface"
+    }
 
     ColumnLayout {
         width: parent.width
         height: parent.height
+
         RowLayout {
             width: parent.width - 20
             Label {
@@ -18,6 +25,7 @@ ApplicationWindow {
             }
 
             ComboBox {
+                objectName: "interfaces"
                 Layout.fillWidth: true
             }
             ComboBox {
