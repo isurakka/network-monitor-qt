@@ -21,10 +21,10 @@ public:
     static QList<NetworkUnit> getSupportedUnits()
     {
         return QList<NetworkUnit>({
-            NetworkUnit("B/s", 1UL),
-            NetworkUnit("KB/s", 1000UL),
-            NetworkUnit("MB/s", 1000000UL),
-            NetworkUnit("GB/s", 1000000000UL),
+            NetworkUnit("B", 1UL),
+            NetworkUnit("KB", 1000UL),
+            NetworkUnit("MB", 1000000UL),
+            NetworkUnit("GB", 1000000000UL),
         });
     }
 
