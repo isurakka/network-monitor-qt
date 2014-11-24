@@ -1,9 +1,8 @@
 import QtQuick 2.3
 import QtQuick.Controls 1.2
 import QtQuick.Layouts 1.1
-import QtQuick.Window 2.0
 
-Window {
+ApplicationWindow {
     visible: true
     width: 640
     height: 480
@@ -17,7 +16,7 @@ Window {
         RowLayout {
             width: parent.width - 20
             Label {
-                text: "Network interface"
+                text: "Interface"
             }
 
             ComboBox {
