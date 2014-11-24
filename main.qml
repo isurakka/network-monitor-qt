@@ -21,13 +21,13 @@ Window {
             }
 
             ComboBox {
-                objectName: qsTr("interfaces")
                 model: interfacesModel
                 textRole: "display"
                 Layout.fillWidth: true
             }
             ComboBox {
-
+                model: unitsModel
+                textRole: "display"
             }
         }
         TabView {
