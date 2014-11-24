@@ -1,18 +1,14 @@
 import QtQuick 2.3
 import QtQuick.Controls 1.2
 import QtQuick.Layouts 1.1
+import QtQuick.Window 2.0
 
-ApplicationWindow {
+Window {
     visible: true
     width: 640
     height: 480
     title: qsTr("Network Monitor")
     objectName: "asd2"
-
-    Label {
-        objectName: "asd"
-        text: "Network interface"
-    }
 
     ColumnLayout {
         width: parent.width
@@ -25,7 +21,9 @@ ApplicationWindow {
             }
 
             ComboBox {
-                objectName: "interfaces"
+                objectName: qsTr("interfaces")
+                model: interfacesModel
+                textRole: "display"
                 Layout.fillWidth: true
             }
             ComboBox {
