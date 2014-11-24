@@ -6,7 +6,9 @@ SOURCES += main.cpp \
     networkinterface.cpp \
     overviewupdater.cpp \
     applicationsettings.cpp \
-    networkgraph.cpp
+    networkgraph.cpp \
+    networkupdater.cpp \
+    networkstorage.cpp
 
 RESOURCES += qml.qrc
 
@@ -23,4 +25,6 @@ HEADERS += \
     networkunit.h \
     overviewupdater.h \
     applicationsettings.h \
-    networkgraph.h
+    networkgraph.h \
+    networkupdater.h \
+    networkstorage.h

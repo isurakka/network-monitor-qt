@@ -10,6 +10,7 @@
 #include <overviewupdater.h>
 #include "applicationsettings.h"
 #include "networkgraph.h"
+#include "networkupdater.h"
 
 int main(int argc, char *argv[])
 {
@@ -34,6 +35,7 @@ int main(int argc, char *argv[])
 
     auto applicationSettings = new ApplicationSettings(root);
     auto overviewUpdater = new OverviewUpdater(root->findChild<QObject*>("overviewTab"), applicationSettings, root);
+    auto networkUpdater = new NetworkUpdater(100, root);
 
     return app.exec();
 }
