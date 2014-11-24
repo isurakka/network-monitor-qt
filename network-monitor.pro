@@ -6,7 +6,7 @@ SOURCES += main.cpp \
     networkinterface.cpp \
     overviewupdater.cpp \
     applicationsettings.cpp \
-    qcustomplot.cpp
+    networkgraph.cpp
 
 RESOURCES += qml.qrc
 
@@ -23,4 +23,4 @@ HEADERS += \
     networkunit.h \
     overviewupdater.h \
     applicationsettings.h \
-    qcustomplot.h
+    networkgraph.h

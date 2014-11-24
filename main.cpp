@@ -9,10 +9,13 @@
 #include <networkunit.h>
 #include <overviewupdater.h>
 #include "applicationsettings.h"
+#include "networkgraph.h"
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
+
+    qmlRegisterType<NetworkGraph>("NetworkMonitor", 1, 0, "NetworkGraph");
 
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));

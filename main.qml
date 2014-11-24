@@ -1,6 +1,7 @@
 import QtQuick 2.3
 import QtQuick.Controls 1.2
 import QtQuick.Layouts 1.1
+import NetworkMonitor 1.0
 
 ApplicationWindow {
     visible: true
@@ -38,22 +39,38 @@ ApplicationWindow {
                 objectName: "overviewTab"
                 title: "Overview"
                 ColumnLayout {
-                    RowLayout {
-                        Label {
-                            text: "Download"
+                    ColumnLayout {
+                        RowLayout {
+                            Label {
+                                text: "Download"
+                            }
+                            Label {
+                                objectName: "currentDownloadValue"
+                                text: "0"
+                            }
                         }
-                        Label {
-                            objectName: "currentDownloadValue"
-                            text: "0"
+                        NetworkGraph
+                        {
+                            objectName: "downloadGraph"
+                            Layout.fillWidth: true
+                            Layout.fillHeight: true
                         }
                     }
-                    RowLayout {
-                        Label {
-                            text: "Upload"
+                    ColumnLayout {
+                        RowLayout {
+                            Label {
+                                text: "Upload"
+                            }
+                            Label {
+                                objectName: "currentUploadValue"
+                                text: "0"
+                            }
                         }
-                        Label {
-                            objectName: "currentUploadValue"
-                            text: "0"
+                        NetworkGraph
+                        {
+                            objectName: "uploadGraph"
+                            Layout.fillWidth: true
+                            Layout.fillHeight: true
                         }
                     }
                 }
