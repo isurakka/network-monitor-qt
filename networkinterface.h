@@ -5,17 +5,17 @@
 #include <QDirIterator>
 #include <QDebug>
 
-class NetworkInterface : public QObject
+#include <networkunit.h>
+
+class NetworkInterface
 {
-    Q_OBJECT
+private:
+    QString name;
+
 public:
-    explicit NetworkInterface(QObject *parent = 0);
+    NetworkInterface(QString name);
     static QStringList* getAllInterfaceNames();
-
-signals:
-
-public slots:
-
+    quint64 getCurrentAmount(NetworkTransferType type);
 };
 
 #endif // NETWORKINTERFACE_H

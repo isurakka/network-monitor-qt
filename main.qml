@@ -20,11 +20,13 @@ ApplicationWindow {
             }
 
             ComboBox {
+                objectName: "interfaceSelection"
                 model: interfacesModel
                 textRole: "display"
                 Layout.fillWidth: true
             }
             ComboBox {
+                objectName: "unitSelection"
                 model: unitsModel
                 textRole: "display"
             }
@@ -33,8 +35,28 @@ ApplicationWindow {
             Layout.fillWidth: true
             Layout.fillHeight: true
             Tab {
+                objectName: "overviewTab"
                 title: "Overview"
-                Rectangle { color: "red" }
+                ColumnLayout {
+                    RowLayout {
+                        Label {
+                            text: "Download"
+                        }
+                        Label {
+                            objectName: "currentDownloadValue"
+                            text: "0"
+                        }
+                    }
+                    RowLayout {
+                        Label {
+                            text: "Upload"
+                        }
+                        Label {
+                            objectName: "currentUploadValue"
+                            text: "0"
+                        }
+                    }
+                }
             }
             Tab {
                 title: "Hourly"

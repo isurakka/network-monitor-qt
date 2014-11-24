@@ -3,7 +3,9 @@ TEMPLATE = app
 QT += qml quick widgets
 
 SOURCES += main.cpp \
-    networkinterface.cpp
+    networkinterface.cpp \
+    overviewupdater.cpp \
+    applicationsettings.cpp
 
 RESOURCES += qml.qrc
 
@@ -17,4 +19,6 @@ include(deployment.pri)
 
 HEADERS += \
     networkinterface.h \
-    networkunit.h
+    networkunit.h \
+    overviewupdater.h \
+    applicationsettings.h

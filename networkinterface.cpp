@@ -1,8 +1,9 @@
 #include "networkinterface.h"
 
-NetworkInterface::NetworkInterface(QObject *parent) :
-    QObject(parent)
+NetworkInterface::NetworkInterface(QString name) :
+    name(name)
 {
+
 }
 
 QStringList* NetworkInterface::getAllInterfaceNames()
@@ -24,4 +25,41 @@ QStringList* NetworkInterface::getAllInterfaceNames()
     }
 
     return ret;
+}
+
+quint64 NetworkInterface::getCurrentAmount(NetworkTransferType type)
+{
+    auto transferType = NetworkUnit::getStrForNetworkTransferType(type);
+
+    auto statisticsFolder = "/sys/class/net/" + this->name + "/statistics";
+
+    if (!QDir(statisticsFolder).exists())
+    {
+        throw QString("Statistics folder doesn't exists!");
+    }
+
+    auto transferFile = statisticsFolder + "/" + transferType + "_bytes";
+
+    QFile file(transferFile);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        throw QString("Couldn't open the file for reading!");
+    }
+
+    QTextStream in(&file);
+    while (!in.atEnd()) {
+        auto line = in.readLine();
+        bool ok;
+        auto ret = line.toULongLong(&ok);
+
+        if (!ok)
+        {
+            throw QString("Couldn't convert the value to integer");
+        }
+
+        return ret;
+        break;
+    }
+
+    throw QString("Couldn't read the value!");
 }

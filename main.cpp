@@ -7,6 +7,8 @@
 
 #include <networkinterface.h>
 #include <networkunit.h>
+#include <overviewupdater.h>
+#include "applicationsettings.h"
 
 int main(int argc, char *argv[])
 {
@@ -24,6 +26,11 @@ int main(int argc, char *argv[])
     QStringListModel unitsModel;
     unitsModel.setStringList(unitNameList);
     engine.rootContext()->setContextProperty("unitsModel", &unitsModel);
+
+    auto root = engine.rootObjects().first();
+
+    auto applicationSettings = new ApplicationSettings(root);
+    auto overviewUpdater = new OverviewUpdater(root->findChild<QObject*>("overviewTab"), applicationSettings, root);
 
     return app.exec();
 }

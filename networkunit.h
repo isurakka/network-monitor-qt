@@ -1,21 +1,35 @@
 #ifndef NETWORKUNIT_H
 #define NETWORKUNIT_H
 
-#endif // NETWORKUNIT_H
-
 #include <QList>
 #include <QStringList>
+
+enum NetworkTransferType
+{
+    Download,
+    Upload,
+};
 
 class NetworkUnit
 {
 private:
     QString displayName;
-    unsigned long bytes;
+    quint64 bytes;
 public:
-    NetworkUnit(QString displayName, unsigned long bytes)
+    NetworkUnit(QString displayName, quint64 bytes)
     {
         this->displayName = displayName;
         this->bytes = bytes;
+    }
+
+    QString getDisplayName()
+    {
+        return this->displayName;
+    }
+
+    quint64 getBytes()
+    {
+        return this->bytes;
     }
 
     static QList<NetworkUnit> getSupportedUnits()
@@ -40,4 +54,17 @@ public:
 
         return ret;
     }
+
+    static QString getStrForNetworkTransferType(NetworkTransferType type)
+    {
+        switch (type)
+        {
+            case NetworkTransferType::Download:
+                return QString("rx");
+            case NetworkTransferType::Upload:
+                return QString("tx");
+        }
+    }
 };
+
+#endif // NETWORKUNIT_H
