@@ -5,7 +5,8 @@ QT += qml quick widgets
 SOURCES += main.cpp \
     networkinterface.cpp \
     overviewupdater.cpp \
-    applicationsettings.cpp
+    applicationsettings.cpp \
+    qcustomplot.cpp
 
 RESOURCES += qml.qrc
 
@@ -21,4 +22,5 @@ HEADERS += \
     networkinterface.h \
     networkunit.h \
     overviewupdater.h \
-    applicationsettings.h
+    applicationsettings.h \
+    qcustomplot.h
