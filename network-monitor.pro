@@ -27,4 +27,5 @@ HEADERS += \
     applicationsettings.h \
     networkgraph.h \
     networkupdater.h \
-    networkstorage.h
+    networkstorage.h \
+    transfertypedefs.h

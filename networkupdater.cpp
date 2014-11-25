@@ -67,7 +67,7 @@ void NetworkUpdater::emptyCurrentData()
     }
 }
 
-NetworkUpdater::InterfaceData NetworkUpdater::getCurrentRawData()
+InterfaceData NetworkUpdater::getCurrentRawData()
 {
     auto data = InterfaceData();
 

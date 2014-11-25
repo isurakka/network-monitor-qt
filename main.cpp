@@ -39,5 +39,11 @@ int main(int argc, char *argv[])
     auto networkStorage = new NetworkStorage(root);
     auto networkUpdater = new NetworkUpdater(1000, networkStorage, root);
 
+    for (auto& graph : root->findChildren<NetworkGraph*>())
+    {
+        graph->settings = applicationSettings;
+        graph->snapshots = &networkUpdater->snapshots;
+    }
+
     return app.exec();
 }
