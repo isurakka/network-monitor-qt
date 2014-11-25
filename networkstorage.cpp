@@ -17,13 +17,25 @@ void NetworkStorage::addData(QDateTime time, NetworkTransferType type, quint64 a
 
     bool exists = file.exists();
 
-    if (!file.open(QIODevice::ReadWrite))
+    QJsonDocument doc = QJsonDocument();
+    if (exists)
+    {
+        if (!file.open(QIODevice::ReadOnly))
+        {
+            throw QString("Couldn't open the file!");
+        }
+
+        auto contents = file.readAll();
+        doc = QJsonDocument(QJsonDocument::fromJson(contents));
+    }
+
+    file.close();
+    if (!file.open(QIODevice::ReadWrite | QIODevice::Text | QIODevice::Truncate))
     {
         throw QString("Couldn't open the file!");
     }
 
     auto trStr = NetworkUnit::getStrForNetworkTransferType(type);
-
     QJsonObject jsonObject;
     quint64 oldValue;
     if (!exists)
@@ -32,7 +44,6 @@ void NetworkStorage::addData(QDateTime time, NetworkTransferType type, quint64 a
     }
     else
     {
-        QJsonDocument doc(QJsonDocument::fromBinaryData(file.readAll()));
         jsonObject = doc.object();
 
         if (jsonObject.find(trStr) != jsonObject.end())
@@ -41,9 +52,11 @@ void NetworkStorage::addData(QDateTime time, NetworkTransferType type, quint64 a
         }
     }
 
-    jsonObject[trStr] = QVariant(oldValue + amount).toString();
 
-    QJsonDocument doc(jsonObject);
+    qDebug() << jsonObject;
+    jsonObject.insert(trStr, QVariant(oldValue + amount).toString());
+
+    doc.setObject(jsonObject);
     file.write(doc.toJson());
 }
 

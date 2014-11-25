@@ -35,7 +35,9 @@ int main(int argc, char *argv[])
 
     auto applicationSettings = new ApplicationSettings(root);
     auto overviewUpdater = new OverviewUpdater(root->findChild<QObject*>("overviewTab"), applicationSettings, root);
-    auto networkUpdater = new NetworkUpdater(100, root);
+
+    auto networkStorage = new NetworkStorage(root);
+    auto networkUpdater = new NetworkUpdater(1000, networkStorage, root);
 
     return app.exec();
 }
