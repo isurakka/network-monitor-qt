@@ -7,7 +7,8 @@ SOURCES += main.cpp \
     applicationsettings.cpp \
     networkgraph.cpp \
     networkupdater.cpp \
-    networkstorage.cpp
+    networkstorage.cpp \
+    hourlymodel.cpp
 
 RESOURCES += qml.qrc
 
@@ -26,4 +27,5 @@ HEADERS += \
     networkgraph.h \
     networkupdater.h \
     networkstorage.h \
-    transfertypedefs.h
+    transfertypedefs.h \
+    hourlymodel.h

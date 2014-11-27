@@ -40,6 +40,7 @@ signals:
 
 private slots:
     void update();
+    void interfaceSelectionChanged(QString selection);
 
 public slots:
 

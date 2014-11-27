@@ -80,6 +80,11 @@ void NetworkUpdater::update()
     lastUpdate = dateTime;
 }
 
+void NetworkUpdater::interfaceSelectionChanged(QString selection)
+{
+    qDebug() << "Interface selection changed";
+}
+
 void NetworkUpdater::emptyCurrentData()
 {
     currentData = InterfaceData();

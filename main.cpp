@@ -4,13 +4,14 @@
 #include <QComboBox>
 #include <QStringListModel>
 #include <QQmlContext>
+#include <QQuickView>
 
 #include <networkinterface.h>
 #include <networkunit.h>
-#include <overviewupdater.h>
 #include "applicationsettings.h"
 #include "networkgraph.h"
 #include "networkupdater.h"
+#include "hourlymodel.h"
 
 int main(int argc, char *argv[])
 {
@@ -34,7 +35,6 @@ int main(int argc, char *argv[])
     auto root = engine.rootObjects().first();
 
     auto applicationSettings = new ApplicationSettings(root);
-    //auto overviewUpdater = new OverviewUpdater(root->findChild<QObject*>("overviewTab"), applicationSettings, root);
 
     auto networkStorage = new NetworkStorage(root);
     auto networkUpdater = new NetworkUpdater(1000, applicationSettings, networkStorage, root);
@@ -55,6 +55,17 @@ int main(int argc, char *argv[])
             graph->color = QColor("#c0392b");
         }
     }
+
+    auto hourlyModel = new HourlyModel(applicationSettings, networkStorage, root);
+    engine.rootContext()->setContextProperty("hourlyModel", hourlyModel);
+
+    auto interfaceSelection = root->findChild<QObject*>("interfaceSelection");
+    //auto interfaceSelection = engine.rootContext()->findChild<QComboBox*>("interfaceSelection");
+    QObject::connect(interfaceSelection, SIGNAL(currentIndexChanged(QString)),
+                          networkUpdater, SLOT(interfaceSelectionChanged(QString)));
+
+    QObject::connect(interfaceSelection, SIGNAL(currentIndexChanged(QString)),
+                          networkUpdater, SLOT(interfaceSelectionChanged(QString)));
 
     return app.exec();
 }
