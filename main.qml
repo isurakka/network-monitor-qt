@@ -51,11 +51,18 @@ ApplicationWindow {
                     ColumnLayout {
                         RowLayout {
                             Label {
-                                text: "Download"
+                                text: "DL"
                             }
                             Label {
                                 objectName: "currentDownloadValue"
                                 text: "0"
+                            }
+                            Rectangle {
+                                Layout.fillWidth: true
+                            }
+                            Label {
+                                objectName: "maxLabel"
+                                text: "Max 0"
                             }
                         }
                         NetworkGraph
@@ -68,11 +75,18 @@ ApplicationWindow {
                     ColumnLayout {
                         RowLayout {
                             Label {
-                                text: "Upload"
+                                text: "UL"
                             }
                             Label {
                                 objectName: "currentUploadValue"
                                 text: "0"
+                            }
+                            Rectangle {
+                                Layout.fillWidth: true
+                            }
+                            Label {
+                                objectName: "maxLabel"
+                                text: "Max 0"
                             }
                         }
                         NetworkGraph

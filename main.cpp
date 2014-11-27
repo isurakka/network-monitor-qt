@@ -34,10 +34,10 @@ int main(int argc, char *argv[])
     auto root = engine.rootObjects().first();
 
     auto applicationSettings = new ApplicationSettings(root);
-    auto overviewUpdater = new OverviewUpdater(root->findChild<QObject*>("overviewTab"), applicationSettings, root);
+    //auto overviewUpdater = new OverviewUpdater(root->findChild<QObject*>("overviewTab"), applicationSettings, root);
 
     auto networkStorage = new NetworkStorage(root);
-    auto networkUpdater = new NetworkUpdater(1000, networkStorage, root);
+    auto networkUpdater = new NetworkUpdater(1000, applicationSettings, networkStorage, root);
 
     for (auto& graph : root->findChildren<NetworkGraph*>())
     {

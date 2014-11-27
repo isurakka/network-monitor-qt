@@ -11,15 +11,23 @@ void NetworkGraph::paint(QPainter *painter)
     const int penWidth = 3;
     const qreal margin = (qreal)penWidth / (qreal)2;
 
-    QBrush brush(QColor("#000000"));
+    QBrush brush(QColor("#bdc3c7"));
     QPen pen(color);
-    pen.setWidth(3);
+    pen.setWidth(penWidth);
 
     painter->setBrush(brush);
     painter->setPen(pen);
     painter->setRenderHint(QPainter::Antialiasing);
 
     auto rect = this->boundingRect();
+
+    pen.setColor(brush.color().darker(150));
+    painter->setPen(pen);
+    painter->drawRect(rect);
+
+    pen.setColor(color);
+    painter->setPen(pen);
+
     rect = QRectF(
                 rect.left() + margin,
                 rect.top() + margin,
@@ -39,7 +47,7 @@ void NetworkGraph::paint(QPainter *painter)
     auto ifName = settings->getCurrentInterface().getName();
 
     // Calculate max value
-    quint64 max = 0;
+    graphMax = 0;
     SnapshotList::iterator j;
     for (j = (*snapshots).begin(); j != (*snapshots).end(); ++j)
     {
@@ -51,7 +59,7 @@ void NetworkGraph::paint(QPainter *painter)
 
         auto trPair = pair.second.value(ifName);
 
-        max = qMax(max, trPair.value(type));
+        graphMax = qMax(graphMax, trPair.value(type));
     }
 
     // Draw lines
@@ -83,8 +91,8 @@ void NetworkGraph::paint(QPainter *painter)
         auto curDlVal = curIt->second.value(ifName).value(type);
         auto nexDlVal = nexIt->second.value(ifName).value(type);
 
-        auto perCurDl = (qreal)curDlVal / (qreal)max;
-        auto perNexDl = (qreal)nexDlVal / (qreal)max;
+        auto perCurDl = (qreal)curDlVal / (qreal)graphMax;
+        auto perNexDl = (qreal)nexDlVal / (qreal)graphMax;
 
         auto p1 = rect.topLeft() + QPointF(
                     rect.width() - rect.width() * (i / barCount),
@@ -95,8 +103,6 @@ void NetworkGraph::paint(QPainter *painter)
 
         painter->drawLine(p1, p2);
     }
-
-    //painter->drawRect(QRect(rect.topLeft().toPoint(), rect.bottomRight().toPoint()));
 }
 
 SnapshotList::iterator NetworkGraph::findDataForTime(QDateTime time)

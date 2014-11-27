@@ -4,7 +4,6 @@ QT += qml quick widgets
 
 SOURCES += main.cpp \
     networkinterface.cpp \
-    overviewupdater.cpp \
     applicationsettings.cpp \
     networkgraph.cpp \
     networkupdater.cpp \
@@ -23,7 +22,6 @@ include(deployment.pri)
 HEADERS += \
     networkinterface.h \
     networkunit.h \
-    overviewupdater.h \
     applicationsettings.h \
     networkgraph.h \
     networkupdater.h \

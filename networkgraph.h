@@ -24,6 +24,7 @@ public:
     SnapshotList* snapshots;
     NetworkTransferType type;
     QColor color;
+    quint64 graphMax;
 };
 
 #endif // NETWORKGRAPH_H

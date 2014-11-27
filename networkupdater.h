@@ -21,6 +21,7 @@ private:
     QTimer* timer;
     quint64 interval;
     NetworkStorage* storage;
+    ApplicationSettings* settings;
     QDateTime lastUpdate;
     bool firstUpdate;
     InterfaceData currentData;
@@ -32,7 +33,7 @@ private:
     int snapshotLimit;
 
 public:
-    explicit NetworkUpdater(quint64 interval, NetworkStorage* storage, QObject *parent = 0);
+    explicit NetworkUpdater(quint64 interval, ApplicationSettings* settings, NetworkStorage* storage, QObject *parent = 0);
     SnapshotList snapshots;
 
 signals:
