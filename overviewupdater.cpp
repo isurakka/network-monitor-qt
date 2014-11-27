@@ -13,8 +13,6 @@ OverviewUpdater::OverviewUpdater(QObject* container, ApplicationSettings* settin
 
 void OverviewUpdater::update()
 {
-    qDebug() << "Overview update";
-
     auto interface = settings->getCurrentInterface();
     auto unit = settings->getCurrentUnit();
     auto realBytes = (qreal)unit.getBytes();

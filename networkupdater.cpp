@@ -32,7 +32,13 @@ void NetworkUpdater::update()
                 storage->addData(lastUpdate, j.key(), j.value(), i.key());
             }
         }
-        snapshots.push_front(DataSnapshot(lastUpdate, currentData));
+        snapshots.push_front(DataSnapshot(dateTime, currentData));
+
+        for (auto& graph : parent()->findChildren<NetworkGraph*>())
+        {
+            //graph->repaint();
+            graph->update();
+        }
 
         emptyCurrentData();
     }

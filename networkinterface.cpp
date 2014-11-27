@@ -14,7 +14,7 @@ QStringList* NetworkInterface::getAllInterfaceNames()
     while (it.hasNext()) {
         auto partialPath = it.next();
         auto fullPath = partialPath + "/statistics";
-        qDebug() << fullPath;
+
         if (!QDir(fullPath).exists())
         {
             continue;
@@ -62,4 +62,9 @@ quint64 NetworkInterface::getCurrentAmount(NetworkTransferType type)
     }
 
     throw QString("Couldn't read the value!");
+}
+
+QString NetworkInterface::getName()
+{
+    return name;
 }

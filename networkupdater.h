@@ -11,6 +11,7 @@
 #include "transfertypedefs.h"
 #include "networkinterface.h"
 #include "networkstorage.h"
+#include "networkgraph.h"
 
 class NetworkUpdater : public QObject
 {

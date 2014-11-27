@@ -43,6 +43,17 @@ int main(int argc, char *argv[])
     {
         graph->settings = applicationSettings;
         graph->snapshots = &networkUpdater->snapshots;
+
+        if (graph->objectName() == "downloadGraph")
+        {
+            graph->type = NetworkTransferType::Download;
+            graph->color = QColor("#27ae60");
+        }
+        else if (graph->objectName() == "uploadGraph")
+        {
+            graph->type = NetworkTransferType::Upload;
+            graph->color = QColor("#c0392b");
+        }
     }
 
     return app.exec();

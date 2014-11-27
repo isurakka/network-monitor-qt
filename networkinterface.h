@@ -16,6 +16,7 @@ public:
     NetworkInterface(QString name);
     static QStringList* getAllInterfaceNames();
     quint64 getCurrentAmount(NetworkTransferType type);
+    QString getName();
 };
 
 #endif // NETWORKINTERFACE_H

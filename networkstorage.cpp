@@ -53,7 +53,6 @@ void NetworkStorage::addData(QDateTime time, NetworkTransferType type, quint64 a
     }
 
 
-    qDebug() << jsonObject;
     jsonObject.insert(trStr, QVariant(oldValue + amount).toString());
 
     doc.setObject(jsonObject);

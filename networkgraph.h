@@ -3,6 +3,7 @@
 
 #include <QQuickPaintedItem>
 #include <QPainter>
+#include <QDebug>
 
 #include "applicationsettings.h"
 #include "transfertypedefs.h"
@@ -13,6 +14,7 @@ class NetworkGraph : public QQuickPaintedItem
 
 private:
     const int barSpacing = 10;
+    SnapshotList::iterator findDataForTime(QDateTime time);
 
 public:
     NetworkGraph(QQuickItem *parent = 0);
@@ -20,6 +22,8 @@ public:
 
     ApplicationSettings* settings;
     SnapshotList* snapshots;
+    NetworkTransferType type;
+    QColor color;
 };
 
 #endif // NETWORKGRAPH_H
