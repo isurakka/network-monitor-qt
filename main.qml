@@ -8,28 +8,36 @@ ApplicationWindow {
     width: 640
     height: 480
     title: qsTr("Network Monitor")
-    objectName: "asd2"
 
     ColumnLayout {
         width: parent.width
         height: parent.height
-
+        spacing: 20
         RowLayout {
-            width: parent.width - 20
+            id: selectionsRow
+            anchors.fill: parent
+            anchors.margins: 10
             Label {
+                id: ifLab
                 text: "Interface"
             }
-
             ComboBox {
+                id: ifSel
                 objectName: "interfaceSelection"
                 model: interfacesModel
                 textRole: "display"
                 Layout.fillWidth: true
+                anchors.left: ifLab.right
+                anchors.leftMargin: 5
+                anchors.right: unitSel.left
+                anchors.rightMargin: 5
             }
             ComboBox {
+                id: unitSel
                 objectName: "unitSelection"
                 model: unitsModel
                 textRole: "display"
+                anchors.right: parent.right
             }
         }
         TabView {
@@ -38,6 +46,7 @@ ApplicationWindow {
             Tab {
                 objectName: "overviewTab"
                 title: "Overview"
+                anchors.margins: 10
                 ColumnLayout {
                     ColumnLayout {
                         RowLayout {
