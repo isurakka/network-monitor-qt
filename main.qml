@@ -120,30 +120,36 @@ ApplicationWindow {
                     GroupBox {
                         title: "Quota"
                         Layout.fillWidth: true
-                        RowLayout {
-                            spacing: 10
-                            CheckBox {
-                                objectName: "quotaEnabled"
-                                text: "Enabled"
-                                checked: false
+                        ColumnLayout {
+                            RowLayout {
+                                spacing: 10
+                                CheckBox {
+                                    objectName: "quotaEnabled"
+                                    text: "Enabled"
+                                    checked: false
+                                }
+                                ComboBox {
+                                    objectName: "quotaType"
+                                    model: quotaModel
+                                    textRole: "display"
+                                    Layout.minimumWidth: 120
+                                }
+                                TextField {
+                                    objectName: "quotaAmount"
+                                    Layout.maximumWidth: 120
+                                    inputMask: "D000000000"
+                                    inputMethodHints: Qt.ImhDigitsOnly
+                                    text: ""
+                                }
+                                ComboBox {
+                                    objectName: "quotaUnit"
+                                    model: unitsModel
+                                    textRole: "display"
+                                }
                             }
-                            ComboBox {
-                                objectName: "quotaType"
-                                model: quotaModel
-                                textRole: "display"
-                                Layout.minimumWidth: 120
-                            }
-                            TextField {
-                                objectName: "quotaAmount"
-                                Layout.maximumWidth: 120
-                                inputMask: "D000000000"
-                                inputMethodHints: Qt.ImhDigitsOnly
-                                text: ""
-                            }
-                            ComboBox {
-                                objectName: "quotaUnit"
-                                model: unitsModel
-                                textRole: "display"
+                            Label {
+                                objectName: "quotaStatus"
+                                text: "Status: Ok"
                             }
                         }
                     }

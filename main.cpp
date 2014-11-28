@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     //QCoreApplication::setOrganizationName("Syneh");
     QCoreApplication::setApplicationName("network-monitor");
 
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
 
     qmlRegisterType<NetworkGraph>("NetworkMonitor", 1, 0, "NetworkGraph");
 

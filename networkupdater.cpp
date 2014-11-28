@@ -40,6 +40,32 @@ void NetworkUpdater::update()
         engine->rootContext()->setContextProperty("hourlyModel", 0);
         engine->rootContext()->setContextProperty("hourlyModel", old);
 
+        if (!firstUpdate)
+        {
+            auto quota = checkQuota();
+            if (quota != lastQuota)
+            {
+                auto quotaStatus = parent()->findChild<QQuickItem*>("quotaStatus");
+                QString text;
+                if (quota)
+                {
+                    text = "Status: Quota exceeded!";
+                }
+                else
+                {
+                    text = "Status: Ok";
+                }
+                quotaStatus->setProperty("text", text);
+            }
+            if (quota != lastQuota && quota)
+            {
+                qDebug() << "Quota exceeded!";
+
+                QMessageBox::critical(0, "Quota", "Quota exceeded!", QMessageBox::Ok);
+            }
+            lastQuota = quota;
+        }
+
         refreshUI();
 
         emptyCurrentData();
@@ -155,4 +181,61 @@ void NetworkUpdater::addDifferenceToCurrentData()
             currentData[i.key()][j.key()] = currentData[i.key()][j.key()] + (currentRawData[i.key()][j.key()] - lastRawData[i.key()][j.key()]);
         }
     }
+}
+
+bool NetworkUpdater::checkQuota()
+{
+    QSettings qS;
+    auto enabled = qS.value("quotaEnabled").toBool();
+    if (!enabled)
+    {
+        return false;
+    }
+
+    QDateTime min;
+    QDateTime max = QDateTime::currentDateTimeUtc();
+
+    auto type = qS.value("quotaType").toInt();
+    if (type == 0)
+    {
+        min = max.addDays(-1);
+    }
+    else if (type == 1)
+    {
+        min = QDateTime(max.date(), QTime(), Qt::UTC);
+    }
+    else if (type == 2)
+    {
+        min = QDateTime(QDate(max.date().year(), max.date().month(), 1), QTime(), Qt::UTC);
+    }
+
+    auto unit = settings->getUnitForIndex(qS.value("quotaUnit").toInt());
+    auto quotaAmount = qS.value("quotaAmount").toULongLong();
+
+    for (auto it = storage->savedData.begin(); it != storage->savedData.end(); ++it)
+    {
+        auto currentAmount = quint64(0);
+
+        auto value = (*it);
+        QMap<QDateTime, NetworkStorage::StoredData>::iterator it2;
+        for (it2 = value.begin(); it2 != value.end(); ++it2)
+        {
+            auto pair = it2;
+            if (pair.key() >= min && pair.key() <= max)
+            {
+                currentAmount += pair.value().dlAmount;
+                currentAmount += pair.value().ulAmount;
+            }
+        }
+
+        currentAmount /= unit.getBytes();
+
+        if (currentAmount >= quotaAmount)
+        {
+            // Quota exceeded
+            return true;
+        }
+    }
+
+    return false;
 }

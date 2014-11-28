@@ -25,6 +25,7 @@ public:
     NetworkUnit getCurrentUnit();
     int getIndexForInterfaceName(QString name);
     int getIndexForUnitName(QString name);
+    NetworkUnit getUnitForIndex(int index);
 
 signals:
 

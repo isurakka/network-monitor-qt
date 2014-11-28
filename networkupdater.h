@@ -9,6 +9,7 @@
 #include <QPair>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QMessageBox>
 
 #include "transfertypedefs.h"
 #include "networkinterface.h"
@@ -35,10 +36,12 @@ private:
     int snapshotLimit;
     void refreshUI();
     QQmlApplicationEngine* engine;
+    bool lastQuota = false;
 
 public:
     explicit NetworkUpdater(quint64 interval, QQmlApplicationEngine* engine, ApplicationSettings* settings, NetworkStorage* storage, QObject *parent = 0);
     SnapshotList snapshots;
+    bool checkQuota();
 
 signals:
 

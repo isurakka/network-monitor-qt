@@ -70,6 +70,11 @@ int ApplicationSettings::getIndexForUnitName(QString name)
     }
 }
 
+NetworkUnit ApplicationSettings::getUnitForIndex(int index)
+{
+    return NetworkUnit::getSupportedUnits()[index];
+}
+
 void ApplicationSettings::interfaceSelectionChanged(int index)
 {
     currentInterfaceIndex = index;
