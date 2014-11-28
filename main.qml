@@ -41,6 +41,7 @@ ApplicationWindow {
             }
         }
         TabView {
+            objectName: "tabView"
             Layout.fillWidth: true
             Layout.fillHeight: true
             Tab {
@@ -114,6 +115,7 @@ ApplicationWindow {
             Tab {
                 title: "Settings"
                 anchors.margins: 10
+                active: true
                 Column {
                     GroupBox {
                         title: "Quota"
@@ -121,24 +123,27 @@ ApplicationWindow {
                         RowLayout {
                             spacing: 10
                             CheckBox {
+                                objectName: "quotaEnabled"
                                 text: "Enabled"
                                 checked: false
                             }
                             ComboBox {
+                                objectName: "quotaType"
                                 model: quotaModel
                                 textRole: "display"
                                 Layout.minimumWidth: 120
                             }
                             TextField {
+                                objectName: "quotaAmount"
                                 Layout.maximumWidth: 120
-                                inputMask: "9999999999"
+                                inputMask: "D000000000"
                                 inputMethodHints: Qt.ImhDigitsOnly
                                 text: ""
                             }
                             ComboBox {
+                                objectName: "quotaUnit"
                                 model: unitsModel
                                 textRole: "display"
-                                currentIndex: 2
                             }
                         }
                     }

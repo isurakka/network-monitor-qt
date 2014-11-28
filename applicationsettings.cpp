@@ -85,3 +85,41 @@ void ApplicationSettings::unitSelectionChanged(int index)
     QSettings qS;
     qS.setValue("unit", unitList[currentUnitIndex]);
 }
+
+void ApplicationSettings::quotaEnabledChanged()
+{
+    auto quotaEnabled = parent()->findChild<QQuickItem*>("quotaEnabled");
+    auto checked = quotaEnabled->property("checked").toBool();
+
+    QSettings qS;
+    qS.setValue("quotaEnabled", checked);
+
+    qDebug() << "quotaEnabled " << checked;
+}
+
+void ApplicationSettings::quotaTypeChanged(int index)
+{
+    qDebug() << "quotaType " << index;
+
+    QSettings qS;
+    qS.setValue("quotaType", index);
+}
+
+void ApplicationSettings::quotaAmountChanged()
+{
+    auto quotaAmount = parent()->findChild<QQuickItem*>("quotaAmount");
+    auto amount = quotaAmount->property("text").toULongLong();
+
+    QSettings qS;
+    qS.setValue("quotaAmount", amount);
+
+    qDebug() << "quotaAmount " << amount;
+}
+
+void ApplicationSettings::quotaUnitChanged(int index)
+{
+    qDebug() << "quotaUnit " << index;
+
+    QSettings qS;
+    qS.setValue("quotaUnit", index);
+}

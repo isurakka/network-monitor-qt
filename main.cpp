@@ -63,6 +63,25 @@ int main(int argc, char *argv[])
                           applicationSettings, SLOT(unitSelectionChanged(int)));
     unitSelection->setProperty("currentIndex", applicationSettings->getIndexForUnitName(qS.value("unit").toString()));
 
+    // Quota events
+    auto quotaEnabled = root->findChild<QQuickItem*>("quotaEnabled");
+    quotaEnabled->setProperty("checked", qS.value("quotaEnabled").toBool());
+    QObject::connect(quotaEnabled, SIGNAL(clicked()),
+                          applicationSettings, SLOT(quotaEnabledChanged()));
+    auto quotaType = root->findChild<QQuickItem*>("quotaType");
+    quotaType->setProperty("currentIndex", qS.value("quotaType").toString());
+    QObject::connect(quotaType, SIGNAL(activated(int)),
+                          applicationSettings, SLOT(quotaTypeChanged(int)));
+    auto quotaAmount = root->findChild<QQuickItem*>("quotaAmount");
+    quotaAmount->setProperty("text", qS.value("quotaAmount").toULongLong());
+    QObject::connect(quotaAmount, SIGNAL(editingFinished()),
+                          applicationSettings, SLOT(quotaAmountChanged()));
+    auto quotaUnit = root->findChild<QQuickItem*>("quotaUnit");
+    quotaUnit->setProperty("currentIndex", qS.value("quotaUnit").toString());
+    QObject::connect(quotaUnit, SIGNAL(activated(int)),
+                          applicationSettings, SLOT(quotaUnitChanged(int)));
+
+
     auto networkStorage = new NetworkStorage(root);
     auto networkUpdater = new NetworkUpdater(1000, &engine, applicationSettings, networkStorage, root);
 

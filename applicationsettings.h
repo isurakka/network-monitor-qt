@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QVariant>
 #include <QSettings>
+#include <QQuickItem>
 
 #include "networkinterface.h"
 #include "networkunit.h"
@@ -27,12 +28,14 @@ public:
 
 signals:
 
-private slots:
+public slots:
     void interfaceSelectionChanged(int index);
     void unitSelectionChanged(int index);
 
-public slots:
-
+    void quotaEnabledChanged();
+    void quotaTypeChanged(int index);
+    void quotaAmountChanged();
+    void quotaUnitChanged(int index);
 };
 
 #endif // APPLICATIONSETTINGS_H
