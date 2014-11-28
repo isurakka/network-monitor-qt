@@ -17,7 +17,7 @@
 
 int main(int argc, char *argv[])
 {
-    //QCoreApplication::setOrganizationName("Syneh");
+    QCoreApplication::setOrganizationName("syneh");
     QCoreApplication::setApplicationName("network-monitor");
 
     QApplication app(argc, argv);
@@ -106,12 +106,12 @@ int main(int argc, char *argv[])
 
     auto hourlyModel = new HourlyModel(applicationSettings, networkStorage, root);
 
-    auto proxyModel = new QSortFilterProxyModel(root);
-    proxyModel->setSourceModel(hourlyModel);
-    proxyModel->setDynamicSortFilter(true);
+    //auto proxyModel = new QSortFilterProxyModel(root);
+    //proxyModel->setSourceModel(hourlyModel);
+    //proxyModel->setDynamicSortFilter(true);
 
     // TODO: Sorting doesn't work
-    engine.rootContext()->setContextProperty("hourlyModel", proxyModel);
+    engine.rootContext()->setContextProperty("hourlyModel", hourlyModel);
 
     QObject::connect(interfaceSelection, SIGNAL(activated(int)),
                           networkUpdater, SLOT(interfaceSelectionChanged(int)));
