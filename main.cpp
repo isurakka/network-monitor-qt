@@ -5,6 +5,8 @@
 #include <QStringListModel>
 #include <QQmlContext>
 #include <QQuickView>
+#include <QSortFilterProxyModel>
+#include <QTableView>
 
 #include <networkinterface.h>
 #include <networkunit.h>
@@ -34,10 +36,18 @@ int main(int argc, char *argv[])
 
     auto root = engine.rootObjects().first();
 
-    auto applicationSettings = new ApplicationSettings(root);
+    auto applicationSettings = new ApplicationSettings(*interfaceNameList, unitNameList, root);
+
+    auto interfaceSelection = root->findChild<QQuickItem*>("interfaceSelection");
+    QObject::connect(interfaceSelection, SIGNAL(activated(int)),
+                          applicationSettings, SLOT(interfaceSelectionChanged(int)));
+
+    auto unitSelection = root->findChild<QQuickItem*>("unitSelection");
+    QObject::connect(unitSelection, SIGNAL(activated(int)),
+                          applicationSettings, SLOT(unitSelectionChanged(int)));
 
     auto networkStorage = new NetworkStorage(root);
-    auto networkUpdater = new NetworkUpdater(1000, applicationSettings, networkStorage, root);
+    auto networkUpdater = new NetworkUpdater(1000, &engine, applicationSettings, networkStorage, root);
 
     for (auto& graph : root->findChildren<NetworkGraph*>())
     {
@@ -56,16 +66,22 @@ int main(int argc, char *argv[])
         }
     }
 
+    auto tableView = root->findChild<QTableView*>();
+
     auto hourlyModel = new HourlyModel(applicationSettings, networkStorage, root);
-    engine.rootContext()->setContextProperty("hourlyModel", hourlyModel);
 
-    auto interfaceSelection = root->findChild<QObject*>("interfaceSelection");
-    //auto interfaceSelection = engine.rootContext()->findChild<QComboBox*>("interfaceSelection");
-    QObject::connect(interfaceSelection, SIGNAL(currentIndexChanged(QString)),
-                          networkUpdater, SLOT(interfaceSelectionChanged(QString)));
+    auto proxyModel = new QSortFilterProxyModel(root);
+    proxyModel->setSourceModel(hourlyModel);
+    proxyModel->setDynamicSortFilter(true);
 
-    QObject::connect(interfaceSelection, SIGNAL(currentIndexChanged(QString)),
-                          networkUpdater, SLOT(interfaceSelectionChanged(QString)));
+    // TODO: Sorting doesn't work
+    engine.rootContext()->setContextProperty("hourlyModel", proxyModel);
+
+    QObject::connect(interfaceSelection, SIGNAL(activated(int)),
+                          networkUpdater, SLOT(interfaceSelectionChanged(int)));
+
+    QObject::connect(unitSelection, SIGNAL(activated(int)),
+                          networkUpdater, SLOT(unitSelectionChanged(int)));
 
     return app.exec();
 }

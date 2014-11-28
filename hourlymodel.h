@@ -25,6 +25,7 @@ public:
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
     QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
+    Q_INVOKABLE virtual void sort(int column, Qt::SortOrder order = Qt::DescendingOrder) Q_DECL_OVERRIDE;
 
 signals:
 

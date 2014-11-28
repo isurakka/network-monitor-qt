@@ -1,8 +1,9 @@
 #include "networkupdater.h"
 
-NetworkUpdater::NetworkUpdater(quint64 interval, ApplicationSettings* settings, NetworkStorage* storage, QObject *parent) :
+NetworkUpdater::NetworkUpdater(quint64 interval, QQmlApplicationEngine* engine, ApplicationSettings* settings, NetworkStorage* storage, QObject *parent) :
     QObject(parent),
     interval(interval),
+    engine(engine),
     settings(settings),
     storage(storage),
     firstUpdate(true),
@@ -35,34 +36,7 @@ void NetworkUpdater::update()
         }
         snapshots.push_front(DataSnapshot(dateTime, currentData));
 
-        // Update current speed
-        auto interface = settings->getCurrentInterface().getName();
-        auto unit = settings->getCurrentUnit();
-        auto realBytes = (qreal)unit.getBytes();
-
-        auto unitPost = " " + unit.getDisplayName() + "/s";
-
-        auto diffDownload = currentData.value(interface).value(NetworkTransferType::Download);
-        auto diffUpload = currentData.value(interface).value(NetworkTransferType::Upload);
-
-        auto finalDownload = QString::number(((qreal)diffDownload) / realBytes, 'f', 2);
-        auto finalUpload = QString::number(((qreal)diffUpload) / realBytes, 'f', 2);
-
-        auto downloadElement = parent()->findChild<QObject*>("currentDownloadValue");
-        downloadElement->setProperty("text", QVariant(finalDownload).toString() + unitPost);
-
-        auto uploadElement = parent()->findChild<QObject*>("currentUploadValue");
-        uploadElement->setProperty("text", QVariant(finalUpload).toString() + unitPost);
-
-        // Update graphs
-        for (auto& graph : parent()->findChildren<NetworkGraph*>())
-        {
-            graph->update();
-
-            auto finalMax = QString::number(((qreal)graph->graphMax) / realBytes, 'f', 2);
-
-            graph->parent()->findChild<QObject*>("maxLabel")->setProperty("text", "Max " + QVariant(finalMax).toString() + unitPost);
-        }
+        refreshUI();
 
         emptyCurrentData();
     }
@@ -80,9 +54,54 @@ void NetworkUpdater::update()
     lastUpdate = dateTime;
 }
 
-void NetworkUpdater::interfaceSelectionChanged(QString selection)
+void NetworkUpdater::refreshUI()
+{
+    // Update current speed
+    auto interface = settings->getCurrentInterface().getName();
+    auto unit = settings->getCurrentUnit();
+    auto realBytes = (qreal)unit.getBytes();
+
+    auto unitPost = " " + unit.getDisplayName() + "/s";
+
+    auto diffDownload = currentData.value(interface).value(NetworkTransferType::Download);
+    auto diffUpload = currentData.value(interface).value(NetworkTransferType::Upload);
+
+    auto finalDownload = QString::number(((qreal)diffDownload) / realBytes, 'f', 2);
+    auto finalUpload = QString::number(((qreal)diffUpload) / realBytes, 'f', 2);
+
+    auto downloadElement = parent()->findChild<QObject*>("currentDownloadValue");
+    downloadElement->setProperty("text", QVariant(finalDownload).toString() + unitPost);
+
+    auto uploadElement = parent()->findChild<QObject*>("currentUploadValue");
+    uploadElement->setProperty("text", QVariant(finalUpload).toString() + unitPost);
+
+    // Update graphs
+    for (auto& graph : parent()->findChildren<NetworkGraph*>())
+    {
+        graph->update();
+
+        auto finalMax = QString::number(((qreal)graph->graphMax) / realBytes, 'f', 2);
+
+        graph->parent()->findChild<QObject*>("maxLabel")->setProperty("text", "Max " + QVariant(finalMax).toString() + unitPost);
+    }
+}
+
+void NetworkUpdater::interfaceSelectionChanged(int index)
 {
     qDebug() << "Interface selection changed";
+    auto old = engine->rootContext()->contextProperty("hourlyModel");
+    engine->rootContext()->setContextProperty("hourlyModel", 0);
+    engine->rootContext()->setContextProperty("hourlyModel", old);
+    refreshUI();
+}
+
+void NetworkUpdater::unitSelectionChanged(int index)
+{
+    qDebug() << "Unit selection changed";
+    auto old = engine->rootContext()->contextProperty("hourlyModel");
+    engine->rootContext()->setContextProperty("hourlyModel", 0);
+    engine->rootContext()->setContextProperty("hourlyModel", old);
+    refreshUI();
 }
 
 void NetworkUpdater::emptyCurrentData()

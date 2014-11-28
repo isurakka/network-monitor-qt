@@ -101,13 +101,14 @@ ApplicationWindow {
             Tab {
                 title: "Hourly"
                 TableView {
-                    id: asdd
-                   model: hourlyModel
-                   sortIndicatorVisible: true
                    TableViewColumn{ role: "date"  ; title: "Date" ; width: 100 }
                    TableViewColumn{ role: "timespan" ; title: "Timespan" ; width: 100 }
                    TableViewColumn{ role: "download"  ; title: "Download" ; width: 150 }
                    TableViewColumn{ role: "upload" ; title: "Upload" ; width: 150 }
+                   model: hourlyModel
+                   sortIndicatorVisible: true
+                   sortIndicatorColumn: 0
+                   sortIndicatorOrder: Qt.DescendingOrder
                 }
             }
             Tab {

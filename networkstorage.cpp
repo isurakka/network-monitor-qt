@@ -11,30 +11,30 @@ NetworkStorage::NetworkStorage(QObject *parent) :
     while (yearIt.hasNext()) {
         auto yearPath = yearIt.next();
         auto year = yearIt.fileName();
-        qDebug() << yearPath;
+        //qDebug() << yearPath;
 
         QDirIterator monthIt(yearPath, flags);
         while (monthIt.hasNext()) {
             auto monthPath = monthIt.next();
             auto month = monthIt.fileName();
-            qDebug() << monthPath;
+            //qDebug() << monthPath;
 
             QDirIterator dayIt(monthPath, flags);
             while (dayIt.hasNext()) {
                 auto dayPath = dayIt.next();
                 auto day = dayIt.fileName();
-                qDebug() << dayPath;
+                //qDebug() << dayPath;
 
                 QDirIterator hourIt(dayPath, flags);
                 while (hourIt.hasNext()) {
                     auto hourPath = hourIt.next();
                     auto hour = hourIt.fileName();
-                    qDebug() << hourPath;
+                    //qDebug() << hourPath;
 
                     auto date = QDate(year.toInt(), month.toInt(), day.toInt());
                     auto time = QTime(hour.toInt(), 0, 0);
                     auto dateTime = QDateTime(date, time, Qt::UTC);
-                    qDebug() << dateTime;
+                    //qDebug() << dateTime;
 
                     QDirIterator ifIt(hourPath, QDir::Readable | QDir::NoDotAndDotDot | QDir::Files | QDir::NoSymLinks);
                     while (ifIt.hasNext()) {
@@ -42,7 +42,7 @@ NetworkStorage::NetworkStorage(QObject *parent) :
                         auto ifFileName = ifIt.fileName();
                         auto ifName = ifFileName;
                         ifName.chop(5);
-                        qDebug() << ifName;
+                        //qDebug() << ifName;
 
                         if (savedData.find(ifName) == savedData.end())
                         {
@@ -127,7 +127,9 @@ void NetworkStorage::addData(QDateTime time, NetworkTransferType type, quint64 a
     }
 
     auto map = *savedData.find(interface);
-    auto data = map.value(time);
+    auto mapTime = QTime(time.time().hour(), 0, 0);
+    auto mapDateTime = QDateTime(time.date(), mapTime, Qt::UTC);
+    auto data = map.value(mapDateTime);
     if (type == NetworkTransferType::Download)
     {
         data.dlAmount = oldValue + amount;
@@ -136,7 +138,7 @@ void NetworkStorage::addData(QDateTime time, NetworkTransferType type, quint64 a
     {
         data.ulAmount = oldValue + amount;
     }
-    map.insert(time, data);
+    map.insert(mapDateTime, data);
     savedData.insert(interface, map);
 
     jsonObject.insert(trStr, QVariant(oldValue + amount).toString());

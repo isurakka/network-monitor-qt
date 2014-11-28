@@ -23,12 +23,10 @@ QVariant HourlyModel::data(const QModelIndex &index, int role) const
 {
     int row = index.row();
     int col = index.column();
-    // generate a log message when this method gets called
-    qDebug() << QString("row %1, col%2, role %3")
-         .arg(row).arg(col).arg(role);
 
     auto ifName = settings->getCurrentInterface().getName();
 
+    //std::sort(storage->savedData.value(ifName).begin(), storage->savedData.value(ifName).end(), qLess<int>());
     auto pair = storage->savedData.value(ifName).begin() + row;
     auto date = pair.key().date();
     auto time = pair.key().time();
@@ -49,14 +47,15 @@ QVariant HourlyModel::data(const QModelIndex &index, int role) const
     }
     else if (role == 2)
     {
-        auto final = pair.value().dlAmount / realBytes;
-        return QVariant(final).toString() + unitPost;
+        auto final = QString::number(pair.value().dlAmount / realBytes, 'f', 2);
+        return final + unitPost;
     }
     else if (role == 3)
     {
-        auto final = pair.value().ulAmount / realBytes;
-        return QVariant(final).toString() + unitPost;
+        auto final = QString::number(pair.value().ulAmount / realBytes, 'f', 2);
+        return final + unitPost;
     }
+
     return QVariant();
 }
 
@@ -68,4 +67,10 @@ QHash<int, QByteArray> HourlyModel::roleNames() const
     roles[2] = "download";
     roles[3] = "upload";
     return roles;
+}
+
+void HourlyModel::sort(int column, Qt::SortOrder order)
+{
+    qDebug() << "Sorting by column " << column << " order " << order;
+    //QAbstractTableModel::sort(column, order);
 }

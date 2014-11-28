@@ -7,6 +7,8 @@
 #include <QHash>
 #include <QLinkedList>
 #include <QPair>
+#include <QQmlApplicationEngine>
+#include <QQmlContext>
 
 #include "transfertypedefs.h"
 #include "networkinterface.h"
@@ -31,16 +33,19 @@ private:
     InterfaceData getCurrentRawData();
     void addDifferenceToCurrentData();
     int snapshotLimit;
+    void refreshUI();
+    QQmlApplicationEngine* engine;
 
 public:
-    explicit NetworkUpdater(quint64 interval, ApplicationSettings* settings, NetworkStorage* storage, QObject *parent = 0);
+    explicit NetworkUpdater(quint64 interval, QQmlApplicationEngine* engine, ApplicationSettings* settings, NetworkStorage* storage, QObject *parent = 0);
     SnapshotList snapshots;
 
 signals:
 
 private slots:
     void update();
-    void interfaceSelectionChanged(QString selection);
+    void interfaceSelectionChanged(int index);
+    void unitSelectionChanged(int index);
 
 public slots:
 
