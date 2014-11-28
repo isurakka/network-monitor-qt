@@ -17,6 +17,9 @@
 
 int main(int argc, char *argv[])
 {
+    //QCoreApplication::setOrganizationName("Syneh");
+    QCoreApplication::setApplicationName("network-monitor");
+
     QGuiApplication app(argc, argv);
 
     qmlRegisterType<NetworkGraph>("NetworkMonitor", 1, 0, "NetworkGraph");
@@ -47,14 +50,18 @@ int main(int argc, char *argv[])
 
     auto applicationSettings = new ApplicationSettings(*interfaceNameList, unitNameList, root);
 
+    QSettings qS;
+
     auto interfaceSelection = root->findChild<QQuickItem*>("interfaceSelection");
     QObject::connect(interfaceSelection, SIGNAL(activated(int)),
                           applicationSettings, SLOT(interfaceSelectionChanged(int)));
+    interfaceSelection->setProperty("currentIndex", applicationSettings->getIndexForInterfaceName(qS.value("interface").toString()));
+
 
     auto unitSelection = root->findChild<QQuickItem*>("unitSelection");
     QObject::connect(unitSelection, SIGNAL(activated(int)),
                           applicationSettings, SLOT(unitSelectionChanged(int)));
-    unitSelection->setProperty("currentIndex", 2);
+    unitSelection->setProperty("currentIndex", applicationSettings->getIndexForUnitName(qS.value("unit").toString()));
 
     auto networkStorage = new NetworkStorage(root);
     auto networkUpdater = new NetworkUpdater(1000, &engine, applicationSettings, networkStorage, root);

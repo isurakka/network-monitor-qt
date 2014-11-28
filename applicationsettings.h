@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QVariant>
+#include <QSettings>
 
 #include "networkinterface.h"
 #include "networkunit.h"
@@ -21,6 +22,8 @@ public:
     explicit ApplicationSettings(QStringList interfaceList, QStringList unitList, QObject *parent = 0);
     NetworkInterface getCurrentInterface();
     NetworkUnit getCurrentUnit();
+    int getIndexForInterfaceName(QString name);
+    int getIndexForUnitName(QString name);
 
 signals:
 

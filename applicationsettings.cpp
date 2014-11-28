@@ -42,12 +42,46 @@ NetworkUnit ApplicationSettings::getCurrentUnit()
     throw QString("Invalid selection");
 }
 
+int ApplicationSettings::getIndexForInterfaceName(QString name)
+{
+    int i = 0;
+    for (auto it = interfaceList.begin(); it != interfaceList.end(); ++it)
+    {
+        if ((*it) == name)
+        {
+            return i;
+        }
+
+        i++;
+    }
+}
+
+int ApplicationSettings::getIndexForUnitName(QString name)
+{
+    int i = 0;
+    for (auto it = unitList.begin(); it != unitList.end(); ++it)
+    {
+        if ((*it) == name)
+        {
+            return i;
+        }
+
+        i++;
+    }
+}
+
 void ApplicationSettings::interfaceSelectionChanged(int index)
 {
     currentInterfaceIndex = index;
+
+    QSettings qS;
+    qS.setValue("interface", interfaceList[currentInterfaceIndex]);
 }
 
 void ApplicationSettings::unitSelectionChanged(int index)
 {
     currentUnitIndex = index;
+
+    QSettings qS;
+    qS.setValue("unit", unitList[currentUnitIndex]);
 }
