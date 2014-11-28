@@ -130,7 +130,10 @@ ApplicationWindow {
                                 Layout.minimumWidth: 120
                             }
                             TextField {
-
+                                Layout.maximumWidth: 120
+                                inputMask: "9999999999"
+                                inputMethodHints: Qt.ImhDigitsOnly
+                                text: ""
                             }
                             ComboBox {
                                 model: unitsModel

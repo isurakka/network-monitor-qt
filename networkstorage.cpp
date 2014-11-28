@@ -76,6 +76,11 @@ NetworkStorage::NetworkStorage(QObject *parent) :
 
 void NetworkStorage::addData(QDateTime time, NetworkTransferType type, quint64 amount, QString interface)
 {
+    if (amount == 0)
+    {
+        return;
+    }
+
     auto folder = QDir(getFolderForTime(time));
     if (!folder.exists())
     {
