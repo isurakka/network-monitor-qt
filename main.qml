@@ -117,15 +117,17 @@ ApplicationWindow {
                 Column {
                     GroupBox {
                         title: "Quota"
+                        Layout.fillWidth: true
                         RowLayout {
                             spacing: 10
-
                             CheckBox {
                                 text: "Enabled"
                                 checked: false
                             }
                             ComboBox {
-
+                                model: quotaModel
+                                textRole: "display"
+                                Layout.minimumWidth: 120
                             }
                             TextField {
 
@@ -133,6 +135,7 @@ ApplicationWindow {
                             ComboBox {
                                 model: unitsModel
                                 textRole: "display"
+                                currentIndex: 2
                             }
                         }
                     }

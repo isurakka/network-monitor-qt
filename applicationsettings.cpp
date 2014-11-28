@@ -3,7 +3,7 @@
 ApplicationSettings::ApplicationSettings(QStringList interfaceList, QStringList unitList, QObject *parent) :
     QObject(parent),
     currentInterfaceIndex(0),
-    currentUnitIndex(0),
+    currentUnitIndex(2),
     interfaceList(interfaceList),
     unitList(unitList)
 {

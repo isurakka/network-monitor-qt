@@ -34,6 +34,15 @@ int main(int argc, char *argv[])
     unitsModel.setStringList(unitNameList);
     engine.rootContext()->setContextProperty("unitsModel", &unitsModel);
 
+    auto quotaMethodList = QStringList({
+        QString("Last 24 hours"),
+        QString("Day"),
+        QString("Month"),
+    });
+    QStringListModel quotaModel;
+    quotaModel.setStringList(quotaMethodList);
+    engine.rootContext()->setContextProperty("quotaModel", &quotaModel);
+
     auto root = engine.rootObjects().first();
 
     auto applicationSettings = new ApplicationSettings(*interfaceNameList, unitNameList, root);
@@ -45,6 +54,7 @@ int main(int argc, char *argv[])
     auto unitSelection = root->findChild<QQuickItem*>("unitSelection");
     QObject::connect(unitSelection, SIGNAL(activated(int)),
                           applicationSettings, SLOT(unitSelectionChanged(int)));
+    unitSelection->setProperty("currentIndex", 2);
 
     auto networkStorage = new NetworkStorage(root);
     auto networkUpdater = new NetworkUpdater(1000, &engine, applicationSettings, networkStorage, root);
