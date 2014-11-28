@@ -31,10 +31,14 @@ void NetworkUpdater::update()
             TransferTypeData::iterator j;
             for (j = i.value().begin(); j != i.value().end(); ++j)
             {
-                storage->addData(lastUpdate, j.key(), j.value(), i.key());
+                storage->addData(dateTime, j.key(), j.value(), i.key());
             }
         }
         snapshots.push_front(DataSnapshot(dateTime, currentData));
+
+        auto old = engine->rootContext()->contextProperty("hourlyModel");
+        engine->rootContext()->setContextProperty("hourlyModel", 0);
+        engine->rootContext()->setContextProperty("hourlyModel", old);
 
         refreshUI();
 
@@ -148,7 +152,7 @@ void NetworkUpdater::addDifferenceToCurrentData()
         TransferTypeData::iterator j;
         for (j = i.value().begin(); j != i.value().end(); ++j)
         {
-            currentData[i.key()][j.key()] += currentRawData[i.key()][j.key()] - lastRawData[i.key()][j.key()];
+            currentData[i.key()][j.key()] = currentData[i.key()][j.key()] + (currentRawData[i.key()][j.key()] - lastRawData[i.key()][j.key()]);
         }
     }
 }

@@ -21,15 +21,17 @@ int HourlyModel::columnCount(const QModelIndex &parent) const
 
 QVariant HourlyModel::data(const QModelIndex &index, int role) const
 {
-    int row = index.row();
+    // HACK: Row is inverted because normal table sorting doesn't work
+    int row = rowCount() - 1 - index.row();
     int col = index.column();
 
     auto ifName = settings->getCurrentInterface().getName();
 
     //std::sort(storage->savedData.value(ifName).begin(), storage->savedData.value(ifName).end(), qLess<int>());
     auto pair = storage->savedData.value(ifName).begin() + row;
-    auto date = pair.key().date();
-    auto time = pair.key().time();
+    auto localDateTime = pair.key().toLocalTime();
+    auto date = localDateTime.date();
+    auto time = localDateTime.time();
     auto locale = QLocale();
 
     auto unit = settings->getCurrentUnit();

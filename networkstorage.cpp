@@ -106,7 +106,7 @@ void NetworkStorage::addData(QDateTime time, NetworkTransferType type, quint64 a
 
     auto trStr = NetworkUnit::getStrForNetworkTransferType(type);
     QJsonObject jsonObject;
-    quint64 oldValue;
+    quint64 oldValue = quint64(0);
     if (!exists)
     {
         jsonObject = QJsonObject();
