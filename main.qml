@@ -113,8 +113,29 @@ ApplicationWindow {
             }
             Tab {
                 title: "Settings"
-                Label {
-                    text: "TODO"
+                anchors.margins: 10
+                Column {
+                    GroupBox {
+                        title: "Quota"
+                        RowLayout {
+                            spacing: 10
+
+                            CheckBox {
+                                text: "Enabled"
+                                checked: false
+                            }
+                            ComboBox {
+
+                            }
+                            TextField {
+
+                            }
+                            ComboBox {
+                                model: unitsModel
+                                textRole: "display"
+                            }
+                        }
+                    }
                 }
             }
         }
