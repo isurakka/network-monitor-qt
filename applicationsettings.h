@@ -5,6 +5,7 @@
 #include <QVariant>
 #include <QSettings>
 #include <QQuickItem>
+#include <QSettings>
 
 #include "networkinterface.h"
 #include "networkunit.h"

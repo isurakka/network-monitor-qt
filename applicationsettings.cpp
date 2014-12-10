@@ -7,7 +7,9 @@ ApplicationSettings::ApplicationSettings(QStringList interfaceList, QStringList 
     interfaceList(interfaceList),
     unitList(unitList)
 {
-
+    QSettings qS;
+    currentInterfaceIndex = this->getIndexForInterfaceName(qS.value("interface").toString());
+    currentUnitIndex = this->getIndexForUnitName(qS.value("unit").toString());
 }
 
 NetworkInterface ApplicationSettings::getCurrentInterface()

@@ -48,9 +48,13 @@ int main(int argc, char *argv[])
 
     auto root = engine.rootObjects().first();
 
+    QSettings qS;
+
     auto applicationSettings = new ApplicationSettings(*interfaceNameList, unitNameList, root);
 
-    QSettings qS;
+    auto networkStorage = new NetworkStorage(root);
+    auto networkUpdater = new NetworkUpdater(1000, &engine, applicationSettings, networkStorage, root);
+
 
     auto interfaceSelection = root->findChild<QQuickItem*>("interfaceSelection");
     QObject::connect(interfaceSelection, SIGNAL(activated(int)),
@@ -82,8 +86,7 @@ int main(int argc, char *argv[])
                           applicationSettings, SLOT(quotaUnitChanged(int)));
 
 
-    auto networkStorage = new NetworkStorage(root);
-    auto networkUpdater = new NetworkUpdater(1000, &engine, applicationSettings, networkStorage, root);
+
 
     for (auto& graph : root->findChildren<NetworkGraph*>())
     {
